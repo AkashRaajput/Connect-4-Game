@@ -1,0 +1,43 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# Java
+*.class
+hs_err_pid*
+replay_pid*
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+bin/
+out/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Native packaging output
+dist-native/
+installer/
+jlink-image/
+
+# Generated release assets (build locally before publishing)
+# Keep source icons; ignore only if regenerated in CI
+# src/main/resources/com/akash/connectfour/icon/app-icon.ico
+
+# Cursor / local assets
+assets/
