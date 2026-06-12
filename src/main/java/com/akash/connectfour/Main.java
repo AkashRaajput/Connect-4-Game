@@ -41,10 +41,14 @@ public class Main extends Application {
             FXMLLoader loader = new FXMLLoader(fxmlUrl);
             Parent root = loader.load();
 
-            Scene scene = new Scene(root);
+            Scene scene = new Scene(root, 980, 720);
+            URL stylesheetUrl = Main.class.getResource("/com/akash/connectfour/styles/game.css");
+            if (stylesheetUrl != null) {
+                scene.getStylesheets().add(stylesheetUrl.toExternalForm());
+            }
             primaryStage.setTitle("Connect 4");
-            primaryStage.setMinWidth(700);
-            primaryStage.setMinHeight(520);
+            primaryStage.setMinWidth(900);
+            primaryStage.setMinHeight(680);
             Image applicationIcon = loadApplicationIcon();
             if (applicationIcon != null) {
                 primaryStage.getIcons().add(applicationIcon);

@@ -12,6 +12,6 @@ if errorlevel 1 (
 echo.
 echo Build complete.
 echo   App JAR:  target\connect-4-game-1.0.0.jar
-echo   Fat JAR:  target\connect-4-game-1.0.0-fat.jar
 echo   Dist:     target\dist\
+echo   Runtime:  target\connect4-runtime\  (after mvn javafx:jlink)
 echo   Release:  target\connect-4-game-1.0.0-windows.zip

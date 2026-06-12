@@ -1,0 +1,128 @@
+.root-pane {
+    -fx-background-color: linear-gradient(to bottom right, #0b1020 0%, #151d32 45%, #0d1224 100%);
+    -fx-font-family: "Segoe UI", "SF Pro Display", "Helvetica Neue", sans-serif;
+}
+
+.header-bar {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 18 28;
+}
+
+.game-title {
+    -fx-text-fill: linear-gradient(to right, #ffffff 0%, #9ecbff 100%);
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 2px;
+}
+
+.game-subtitle {
+    -fx-text-fill: rgba(255, 255, 255, 0.55);
+    -fx-font-size: 13px;
+}
+
+.board-shell {
+    -fx-padding: 24;
+}
+
+.board-wrapper {
+    -fx-background-color: rgba(255, 255, 255, 0.03);
+    -fx-background-radius: 28;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 28;
+    -fx-border-width: 1;
+    -fx-padding: 18;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.45), 28, 0.25, 0, 10);
+}
+
+.sidebar {
+    -fx-background-color: rgba(12, 18, 34, 0.92);
+    -fx-background-radius: 24 0 0 24;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-width: 1 0 1 1;
+    -fx-padding: 28 24;
+    -fx-spacing: 18;
+    -fx-min-width: 280;
+    -fx-pref-width: 300;
+}
+
+.section-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.45);
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1.5px;
+}
+
+.status-label {
+    -fx-text-fill: #dbeafe;
+    -fx-font-size: 15px;
+    -fx-wrap-text: true;
+}
+
+.player-panel {
+    -fx-background-color: rgba(255, 255, 255, 0.04);
+    -fx-background-radius: 16;
+    -fx-border-color: rgba(255, 255, 255, 0.08);
+    -fx-border-radius: 16;
+    -fx-border-width: 1;
+    -fx-padding: 14 16;
+    -fx-spacing: 8;
+}
+
+.player-panel-active {
+    -fx-background-color: rgba(79, 156, 255, 0.12);
+    -fx-border-color: rgba(96, 165, 250, 0.65);
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.35), 18, 0.2, 0, 0);
+}
+
+.player-name {
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.player-tag {
+    -fx-text-fill: rgba(255, 255, 255, 0.55);
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 1px;
+}
+
+.turn-chip {
+    -fx-background-color: rgba(255, 255, 255, 0.08);
+    -fx-background-radius: 999;
+    -fx-padding: 8 14;
+    -fx-text-fill: #bfdbfe;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.primary-button {
+    -fx-background-color: linear-gradient(to bottom, #3b82f6 0%, #2563eb 100%);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 12;
+    -fx-padding: 12 18;
+    -fx-cursor: hand;
+    -fx-border-color: rgba(255, 255, 255, 0.18);
+    -fx-border-radius: 12;
+    -fx-border-width: 1;
+}
+
+.primary-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #60a5fa 0%, #3b82f6 100%);
+    -fx-effect: dropshadow(gaussian, rgba(59, 130, 246, 0.45), 14, 0.25, 0, 2);
+}
+
+.primary-button:pressed {
+    -fx-background-color: linear-gradient(to bottom, #2563eb 0%, #1d4ed8 100%);
+    -fx-translate-y: 1;
+}
+
+.hint-label {
+    -fx-text-fill: rgba(255, 255, 255, 0.35);
+    -fx-font-size: 12px;
+    -fx-wrap-text: true;
+}

@@ -15,12 +15,12 @@
         <maven.compiler.release>17</maven.compiler.release>
         <javafx.version>21.0.2</javafx.version>
         <main.class>com.akash.connectfour.Main</main.class>
+        <launcher.class>com.akash.connectfour.Launcher</launcher.class>
+        <module.name>com.akash.connectfour</module.name>
+        <module.launcher>${module.name}/${launcher.class}</module.launcher>
         <app.name>Connect4</app.name>
         <app.vendor>Akash Raajput</app.vendor>
-        <icon.dir>${project.basedir}/src/main/resources/com/akash/connectfour/icon</icon.dir>
-        <icon.ico>${icon.dir}/app-icon.ico</icon.ico>
-        <jpackage.dest>${project.basedir}/dist-native</jpackage.dest>
-        <jpackage.input>${project.build.directory}/dist</jpackage.input>
+        <jlink.image.name>connect4-runtime</jlink.image.name>
     </properties>
 
     <dependencies>
@@ -69,7 +69,12 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>${main.class}</mainClass>
+                    <mainClass>${module.launcher}</mainClass>
+                    <launcher>connect4</launcher>
+                    <jlinkImageName>${jlink.image.name}</jlinkImageName>
+                    <stripDebug>true</stripDebug>
+                    <noManPages>true</noManPages>
+                    <noHeaderFiles>true</noHeaderFiles>
                 </configuration>
             </plugin>
 
@@ -80,9 +85,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>${main.class}</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>${launcher.class}</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -109,46 +112,6 @@
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.6.0</version>
-                <executions>
-                    <execution>
-                        <id>shade-fat-jar</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <shadedArtifactAttached>true</shadedArtifactAttached>
-                            <shadedClassifierName>fat</shadedClassifierName>
-                            <createDependencyReducedPom>false</createDependencyReducedPom>
-                            <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>${main.class}</mainClass>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/LICENSE</resource>
-                                </transformer>
-                            </transformers>
-                            <filters>
-                                <filter>
-                                    <artifact>*:*</artifact>
-                                    <excludes>
-                                        <exclude>META-INF/*.SF</exclude>
-                                        <exclude>META-INF/*.DSA</exclude>
-                                        <exclude>META-INF/*.RSA</exclude>
-                                        <exclude>META-INF/MANIFEST.MF</exclude>
-                                    </excludes>
-                                </filter>
-                            </filters>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>3.1.0</version>
                 <executions>
@@ -162,31 +125,22 @@
                             <target>
                                 <mkdir dir="${project.build.directory}/dist"/>
                                 <mkdir dir="${project.build.directory}/dist/lib"/>
+                                <mkdir dir="${project.build.directory}/jpackage-input"/>
                                 <copy file="${project.build.directory}/${project.build.finalName}.jar"
                                       tofile="${project.build.directory}/dist/${project.build.finalName}.jar"/>
-                                <copy file="${project.build.directory}/${project.build.finalName}-fat.jar"
-                                      tofile="${project.build.directory}/dist/${project.build.finalName}-fat.jar"
-                                      failonerror="false"/>
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                      tofile="${project.build.directory}/jpackage-input/${project.build.finalName}.jar"/>
                                 <copy todir="${project.build.directory}/dist/lib">
                                     <fileset dir="${project.build.directory}/lib"/>
                                 </copy>
                                 <echo file="${project.build.directory}/dist/run.bat"><![CDATA[@echo off
 setlocal
 set SCRIPT_DIR=%~dp0
-java --module-path "%SCRIPT_DIR%lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.base -cp "%SCRIPT_DIR%${project.build.finalName}.jar" ${main.class} %*
-]]></echo>
-                                <echo file="${project.build.directory}/dist/run-fat.bat"><![CDATA[@echo off
-setlocal
-set SCRIPT_DIR=%~dp0
-java --add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED --add-opens javafx.graphics/com.sun.marlin=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED -jar "%SCRIPT_DIR%${project.build.finalName}-fat.jar" %*
+java --module-path "%SCRIPT_DIR%lib;%SCRIPT_DIR%${project.build.finalName}.jar" --module ${module.launcher} %*
 ]]></echo>
                                 <echo file="${project.build.directory}/dist/run.sh"><![CDATA[#!/usr/bin/env sh
 SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-exec java --module-path "$SCRIPT_DIR/lib" --add-modules javafx.controls,javafx.fxml,javafx.graphics,javafx.base -cp "$SCRIPT_DIR/${project.build.finalName}.jar" ${main.class} "$@"
-]]></echo>
-                                <echo file="${project.build.directory}/dist/run-fat.sh"><![CDATA[#!/usr/bin/env sh
-SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
-exec java --add-opens javafx.base/com.sun.javafx.runtime=ALL-UNNAMED --add-opens javafx.graphics/com.sun.marlin=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.sg.prism=ALL-UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene=ALL-UNNAMED -jar "$SCRIPT_DIR/${project.build.finalName}-fat.jar" "$@"
+exec java --module-path "$SCRIPT_DIR/lib:$SCRIPT_DIR/${project.build.finalName}.jar" --module ${module.launcher} "$@"
 ]]></echo>
                             </target>
                         </configuration>
